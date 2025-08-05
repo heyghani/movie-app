@@ -48,7 +48,18 @@ export const getTrendingMovies = async (): Promise<
       Query.orderDesc("count"),
     ]);
 
-    return result.documents as unknown as TrendingMovie[];
+    const documents = result.documents;
+    const seenMovieIds = new Set<string>();
+    const uniqueMovies: TrendingMovie[] = [];
+
+    documents.forEach((doc) => {
+      if (doc.movie_id && !seenMovieIds.has(doc.movie_id)) {
+        seenMovieIds.add(doc.movie_id);
+        uniqueMovies.push(doc);
+      }
+    });
+
+    return uniqueMovies;
   } catch (error) {
     console.log(error);
     return undefined;

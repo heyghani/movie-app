@@ -76,7 +76,7 @@ export default function Index() {
                   renderItem={({ item, index }) => (
                     <TrendingCard movie={item} index={index} />
                   )}
-                  keyExtractor={(item) => item.$id}
+                  keyExtractor={(item) => item.movie_id.toString()}
                 />
               </View>
             )}
